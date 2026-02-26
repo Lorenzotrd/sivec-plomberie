@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sivec Plomberie – Plombier Nantes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #0f2d5e;
+      --blue-dark: #0a1f42;
+      --blue-mid: #2563eb;
+      --accent: #38bdf8;
+      --light: #eff6ff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --white: #ffffff;
+      --border: #bfdbfe;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--white);
+    }
+
+    /* ═══════════════════════════════════════
+       NAV - sticky avec tel
+    ═══════════════════════════════════════ */
+    nav {
+      background: var(--blue);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.18);
+    }
+    nav .logo { color: white; font-size: 1.2rem; font-weight: 800; }
+    nav .logo span { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-right a.nav-link {
+      color: rgba(255,255,255,.75);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-right a.nav-link:hover { color: white; }
+    nav a.cta-nav {
+      background: var(--accent);
+      color: var(--blue-dark);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: .85rem;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    nav a.cta-nav:hover { opacity: .85; }
+
+    /* ═══════════════════════════════════════
+       HERO - split layout
+    ═══════════════════════════════════════ */
+    .hero {
+      background: linear-gradient(135deg, var(--blue) 0%, #1e3a6e 100%);
+      color: white;
+      padding: 60px 40px;
+    }
+    .hero-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-text { text-align: left; }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(56,189,248,.12);
+      border: 1px solid rgba(56,189,248,.3);
+      color: var(--accent);
+      font-size: .73rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .hero h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+    .hero .sub {
+      font-size: 1.05rem;
+      opacity: .82;
+      max-width: 480px;
+      margin: 0 0 32px;
+      line-height: 1.65;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-img .img-placeholder {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 4/3;
+      background: rgba(255,255,255,.08);
+      border: 2px dashed rgba(255,255,255,.25);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(255,255,255,.4);
+      font-size: .82rem;
+      font-weight: 500;
+    }
+    .hero-img .img-placeholder span { font-size: 2.5rem; }
+    .hero-img img {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: var(--blue-dark);
+      font-size: 1.15rem;
+      font-weight: 800;
+      padding: 16px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(56,189,248,.3);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(56,189,248,.42);
+    }
+    .btn-primary svg { width: 22px; height: 22px; }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: white;
+      font-size: .95rem;
+      font-weight: 600;
+      padding: 16px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      border: 2px solid rgba(255,255,255,.35);
+      transition: border-color .2s, background .2s;
+    }
+    .btn-secondary:hover {
+      border-color: white;
+      background: rgba(255,255,255,.07);
+    }
+
+    /* ═══════════════════════════════════════
+       TRUST BAR
+    ═══════════════════════════════════════ */
+    .trust {
+      background: var(--light);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+    .trust .item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: .87rem;
+      color: var(--blue);
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION COMMONS
+    ═══════════════════════════════════════ */
+    .section-label {
+      text-align: center;
+      font-size: .73rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue-mid);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 800;
+      margin-bottom: 40px;
+      color: var(--blue);
+    }
+
+    /* ═══════════════════════════════════════
+       ABOUT - split layout avec image
+    ═══════════════════════════════════════ */
+    .about {
+      padding: 72px 40px;
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .about-img .img-placeholder-about {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--light);
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 500;
+    }
+    .about-img .img-placeholder-about span { font-size: 2.2rem; }
+    .about-img img {
+      width: 100%;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 8px 30px rgba(0,0,0,.1);
+    }
+    .about-content { text-align: left; }
+    .about-content h2 {
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 800;
+      color: var(--blue);
+      margin-bottom: 16px;
+    }
+    .about-content p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .about-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .about-stat { text-align: center; }
+    .about-stat .num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--blue);
+      line-height: 1;
+    }
+    .about-stat .label {
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ═══════════════════════════════════════
+       SERVICES
+    ═══════════════════════════════════════ */
+    .services {
+      background: var(--light);
+      padding: 72px 40px;
+    }
+    .services-inner { max-width: 960px; margin: 0 auto; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 22px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .card:hover {
+      border-color: var(--blue-mid);
+      box-shadow: 0 6px 20px rgba(37,99,235,.1);
+    }
+    .card .icon { font-size: 2.2rem; margin-bottom: 14px; }
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--blue);
+    }
+    .card p { font-size: .86rem; color: var(--muted); line-height: 1.6; }
+
+    /* ═══════════════════════════════════════
+       POURQUOI NOUS
+    ═══════════════════════════════════════ */
+    .why { padding: 72px 40px; }
+    .why-inner { max-width: 900px; margin: 0 auto; }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .why-item { display: flex; gap: 14px; align-items: flex-start; }
+    .why-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      background: var(--light);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .why-item h3 { font-size: .95rem; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+    .why-item p { font-size: .84rem; color: var(--muted); line-height: 1.55; }
+
+    /* ═══════════════════════════════════════
+       AVIS
+    ═══════════════════════════════════════ */
+    .avis { background: var(--light); padding: 72px 40px; }
+    .avis-inner { max-width: 960px; margin: 0 auto; }
+    .avis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
+    }
+    .avis-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 22px;
+    }
+    .avis-stars { color: #f59e0b; font-size: 1rem; margin-bottom: 10px; letter-spacing: 2px; }
+    .avis-card .text { font-size: .9rem; color: var(--text); line-height: 1.6; margin-bottom: 14px; font-style: italic; }
+    .avis-author { font-size: .82rem; font-weight: 700; color: var(--blue); }
+    .avis-source { font-weight: 400; color: var(--muted); font-size: .75rem; }
+    .avis-bottom { text-align: center; margin-top: 32px; }
+    .avis-bottom a {
+      color: var(--blue-mid);
+      font-weight: 700;
+      font-size: .9rem;
+      text-decoration: none;
+      border-bottom: 2px solid var(--blue-mid);
+      padding-bottom: 2px;
+    }
+    .avis-bottom a:hover { color: var(--blue); border-color: var(--blue); }
+
+    /* ═══════════════════════════════════════
+       ZONES
+    ═══════════════════════════════════════ */
+    .zones { padding: 60px 40px; }
+    .zones-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+    .zones-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 4px; }
+    .zone-tag {
+      background: var(--light);
+      border: 1.5px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    /* ═══════════════════════════════════════
+       FORMULAIRE
+    ═══════════════════════════════════════ */
+    .contact { background: var(--light); padding: 72px 40px; }
+    .contact-inner { max-width: 520px; margin: 0 auto; }
+    .contact form { display: flex; flex-direction: column; gap: 12px; }
+    .contact input, .contact textarea, .contact select {
+      font-family: 'Inter', sans-serif;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: .93rem;
+      color: var(--text);
+      background: white;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .contact input:focus, .contact textarea:focus, .contact select:focus { border-color: var(--blue-mid); }
+    .contact textarea { resize: vertical; min-height: 90px; }
+    .contact button {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background .2s;
+    }
+    .contact button:hover { background: var(--blue-dark); }
+    .form-note { text-align: center; font-size: .8rem; color: var(--muted); margin-top: 6px; }
+
+    /* ═══════════════════════════════════════
+       FAQ
+    ═══════════════════════════════════════ */
+    .faq { padding: 72px 40px; }
+    .faq-inner { max-width: 680px; margin: 0 auto; }
+    .faq-item {
+      background: var(--light);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .faq-item summary {
+      padding: 16px 20px;
+      font-weight: 700;
+      font-size: .92rem;
+      cursor: pointer;
+      color: var(--blue);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--blue-mid);
+      transition: transform .2s;
+    }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-answer { padding: 0 20px 16px; font-size: .87rem; color: var(--muted); line-height: 1.6; }
+
+    /* ═══════════════════════════════════════
+       CTA FINAL
+    ═══════════════════════════════════════ */
+    .cta-final {
+      background: var(--blue);
+      color: white;
+      text-align: center;
+      padding: 72px 40px;
+    }
+    .cta-final h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; margin-bottom: 10px; }
+    .cta-final p { opacity: .8; margin-bottom: 28px; font-size: 1rem; }
+    .cta-final-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .cta-final a.cta-phone {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--blue-dark);
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 15px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .cta-final a.cta-phone:hover { opacity: .88; }
+    .cta-final a.cta-phone svg { width: 20px; height: 20px; }
+    .cta-final a.cta-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25d366;
+      color: white;
+      font-weight: 700;
+      font-size: .95rem;
+      padding: 15px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .cta-final a.cta-wa:hover { opacity: .88; }
+    .cta-final a.cta-wa svg { width: 20px; height: 20px; fill: white; }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    footer {
+      background: #081b36;
+      color: rgba(255,255,255,.4);
+      text-align: center;
+      padding: 28px 40px;
+      font-size: .78rem;
+      line-height: 1.7;
+    }
+    footer strong { color: rgba(255,255,255,.7); }
+    footer a { color: rgba(255,255,255,.4); text-decoration: none; }
+    footer a:hover { color: rgba(255,255,255,.7); }
+
+    /* ═══════════════════════════════════════
+       WHATSAPP FLOTTANT
+    ═══════════════════════════════════════ */
+    .wa-float {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      width: 58px;
+      height: 58px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba(37,211,102,.4);
+      z-index: 99;
+      transition: transform .2s;
+      text-decoration: none;
+    }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 30px; height: 30px; fill: white; }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      nav { padding: 12px 18px; }
+      .nav-right a.nav-link { display: none; }
+      .hero { padding: 48px 18px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+      .hero-text { text-align: center; }
+      .hero-btns { justify-content: center; }
+      .hero-img { order: -1; }
+      .hero-img .img-placeholder { max-width: 280px; }
+      .trust { gap: 14px; padding: 16px 18px; }
+      .trust .item { font-size: .8rem; }
+      .about { padding: 52px 18px; }
+      .about-inner { grid-template-columns: 1fr; gap: 28px; }
+      .about-content { text-align: center; }
+      .about-stats { justify-content: center; }
+      .about-img .img-placeholder-about { max-width: 300px; margin: 0 auto; }
+      .services, .avis, .contact { padding: 52px 18px; }
+      .why, .faq, .zones { padding: 48px 18px; }
+      .cta-final { padding: 52px 18px; }
+      footer { padding: 22px 18px; }
+      .wa-float { bottom: 16px; right: 16px; width: 52px; height: 52px; }
+      .wa-float svg { width: 26px; height: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav>
+  <div class="logo">Sivec <span>Plomberie</span></div>
+  <div class="nav-right">
+    <a class="nav-link" href="#services">Services</a>
+    <a class="nav-link" href="#avis">Avis</a>
+    <a class="nav-link" href="#contact">Devis gratuit</a>
+    <a class="cta-nav" href="tel:0607442885">&#128222; 06 07 44 28 85</a>
+  </div>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="badge">Artisan plombier chauffagiste &mdash; Nantes (44)</div>
+      <h1>Votre plombier de confiance<br><em>à Nantes</em></h1>
+      <p class="sub">Dépannage urgent, installation, rénovation salle de bain. Un artisan local qui répond au téléphone et fait le travail proprement.</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="tel:0607442885">
+          <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372a2.25 2.25 0 00-1.687-2.176l-2.927-.731a2.25 2.25 0 00-2.282.74l-.597.746a14.25 14.25 0 01-6.063-6.063l.746-.597a2.25 2.25 0 00.74-2.282l-.731-2.927A2.25 2.25 0 006.122 4.5H4.75A2.25 2.25 0 002.25 6.75z"/></svg>
+          Appeler maintenant
+        </a>
+        <a class="btn-secondary" href="#contact">Demander un devis gratuit</a>
+      </div>
+    </div>
+    <div class="hero-img">
+      <!-- REMPLACER par : <img src="photo-hero.jpg" alt="Sivec Plomberie - Plombier Nantes"> -->
+      <div class="img-placeholder">
+        <span>&#128248;</span>
+        Photo de vous au travail<br>ou de votre camionnette
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ TRUST BAR ══════ -->
+<div class="trust">
+  <div class="item">&#9889; Intervention rapide</div>
+  <div class="item">&#9989; Devis gratuit</div>
+  <div class="item">&#11088; 4.9/5 avis clients</div>
+  <div class="item">&#128205; Nantes & métropole</div>
+</div>
+
+<!-- ══════ ABOUT ══════ -->
+<section class="about">
+  <div class="about-inner">
+    <div class="about-img">
+      <!-- REMPLACER par : <img src="photo-portrait.jpg" alt="Sivec Plomberie - Artisan plombier Nantes"> -->
+      <div class="img-placeholder-about">
+        <span>&#128100;</span>
+        Photo portrait ou<br>sur un chantier
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-label">Qui sommes-nous</div>
+      <h2>Un artisan local, pas une plateforme</h2>
+      <p>Sivec Plomberie, c'est un vrai artisan plombier chauffagiste basé à Nantes. Pas d'intermédiaire, pas de centrale d'appels. Vous parlez directement à la personne qui intervient chez vous. Devis honnête, travail soigné, prix juste.</p>
+      <div class="about-stats">
+        <div class="about-stat">
+          <div class="num">10+</div>
+          <div class="label">années d'expérience</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">500+</div>
+          <div class="label">interventions</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">4.9/5</div>
+          <div class="label">satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ SERVICES ══════ -->
+<section class="services" id="services">
+  <div class="services-inner">
+    <div class="section-label">Nos prestations</div>
+    <h2 class="section-title">Ce qu'on fait pour vous</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">&#128167;</div>
+        <h3>Dépannage urgent</h3>
+        <p>Fuite d'eau, canalisation bouchée, dégât des eaux. Intervention rapide sur Nantes.</p>
+      </div>
+      <div class="card">
+        <div class="icon">&#128293;</div>
+        <h3>Chauffage</h3>
+        <p>Installation, entretien et remplacement de chaudière, chauffe-eau, radiateurs.</p>
+      </div>
+      <div class="card">
+        <div class="icon">&#128703;</div>
+        <h3>Salle de bain</h3>
+        <p>Rénovation complète ou partielle. Douche, baignoire, WC, robinetterie.</p>
+      </div>
+      <div class="card">
+        <div class="icon">&#127959;&#65039;</div>
+        <h3>Neuf & rénovation</h3>
+        <p>Plomberie pour construction neuve ou réhabilitation de logement ancien.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ POURQUOI NOUS ══════ -->
+<section class="why">
+  <div class="why-inner">
+    <div class="section-label">Pourquoi nous choisir</div>
+    <h2 class="section-title">Ce qui fait la différence</h2>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">&#9201;</div>
+        <div>
+          <h3>Réponse rapide</h3>
+          <p>On décroche le téléphone et on intervient dans la journée pour les urgences.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">&#128176;</div>
+        <div>
+          <h3>Prix transparent</h3>
+          <p>Devis gratuit, détaillé et sans surprise. Le prix annoncé est le prix facturé.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">&#128170;</div>
+        <div>
+          <h3>Travail soigné</h3>
+          <p>On laisse le chantier propre. Pas de raccourci, du travail fait pour durer.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">&#129309;</div>
+        <div>
+          <h3>Un seul interlocuteur</h3>
+          <p>Vous parlez à celui qui fait le travail. Pas de sous-traitance, pas de surprise.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ AVIS ══════ -->
+<section class="avis" id="avis">
+  <div class="avis-inner">
+    <div class="section-label">Avis clients</div>
+    <h2 class="section-title">Ils nous font confiance</h2>
+    <div class="avis-grid">
+      <div class="avis-card">
+        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="text">"Intervention rapide pour une fuite sous l'évier. Très pro, prix honnête, travail impeccable. Je recommande les yeux fermés !"</p>
+        <div class="avis-author">Marie L. <span class="avis-source">— Google</span></div>
+      </div>
+      <div class="avis-card">
+        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="text">"Venu le jour même pour un chauffe-eau en panne. Honnête, ponctuel et efficace. Enfin un plombier de confiance à Nantes."</p>
+        <div class="avis-author">Thomas R. <span class="avis-source">— Google</span></div>
+      </div>
+      <div class="avis-card">
+        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="text">"Rénovation complète de notre salle de bain. Travail soigné, respect des délais et du devis. On est ravis du résultat."</p>
+        <div class="avis-author">Sophie & Marc D. <span class="avis-source">— Google</span></div>
+      </div>
+    </div>
+    <div class="avis-bottom">
+      <a href="https://www.google.com/maps" target="_blank" rel="noopener">Voir tous nos avis Google &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ZONES ══════ -->
+<section class="zones">
+  <div class="zones-inner">
+    <div class="section-label">Zone d'intervention</div>
+    <h2 class="section-title">On intervient près de chez vous</h2>
+    <div class="zones-list">
+      <div class="zone-tag">Nantes</div>
+      <div class="zone-tag">Saint-Herblain</div>
+      <div class="zone-tag">Rezé</div>
+      <div class="zone-tag">Orvault</div>
+      <div class="zone-tag">Vertou</div>
+      <div class="zone-tag">Carquefou</div>
+      <div class="zone-tag">Saint-Sébastien-sur-Loire</div>
+      <div class="zone-tag">Bouguenais</div>
+      <div class="zone-tag">La Chapelle-sur-Erdre</div>
+      <div class="zone-tag">Couëron</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FORMULAIRE ══════ -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">Demandez votre devis gratuit</h2>
+    <form action="https://formsubmit.co/VOTRE-EMAIL@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Nouveau devis - Site web Sivec Plomberie" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="text" name="nom" placeholder="Votre nom" required />
+      <input type="tel" name="telephone" placeholder="Votre numéro de téléphone" required />
+      <select name="prestation">
+        <option value="" disabled selected>Type d'intervention</option>
+        <option value="Dépannage urgent">Dépannage urgent</option>
+        <option value="Chauffage">Chauffage</option>
+        <option value="Salle de bain">Salle de bain</option>
+        <option value="Neuf / Rénovation">Neuf / Rénovation</option>
+        <option value="Autre">Autre</option>
+      </select>
+      <textarea name="message" placeholder="Décrivez votre besoin en quelques mots..."></textarea>
+      <button type="submit">Envoyer ma demande</button>
+      <p class="form-note">Réponse sous 24h &middot; Ou appelez le <strong>06 07 44 28 85</strong></p>
+    </form>
+  </div>
+</section>
+
+<!-- ══════ FAQ ══════ -->
+<section class="faq">
+  <div class="faq-inner">
+    <div class="section-label">Questions fréquentes</div>
+    <h2 class="section-title">On vous répond</h2>
+
+    <details class="faq-item">
+      <summary>Quel est le délai d'intervention pour une urgence ?</summary>
+      <div class="faq-answer">On intervient dans la journée pour les urgences sur Nantes et sa métropole. Appelez-nous directement.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Le devis est-il vraiment gratuit ?</summary>
+      <div class="faq-answer">Oui, toujours gratuit et sans engagement. On se déplace, on évalue, on vous donne un prix juste. Pas de surprise.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Vous intervenez le week-end ?</summary>
+      <div class="faq-answer">Oui, on intervient le samedi de 8h à 17h. Pour les urgences en dehors, appelez et on fera notre possible.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Quels moyens de paiement acceptez-vous ?</summary>
+      <div class="faq-answer">Carte bancaire, virement, chèque et espèces. Facilités de paiement possibles pour les gros travaux.</div>
+    </details>
+  </div>
+</section>
+
+<!-- ══════ CTA FINAL ══════ -->
+<section class="cta-final">
+  <h2>Un problème de plomberie ?</h2>
+  <p>Appelez-nous ou envoyez un message. On répond vite, devis gratuit.</p>
+  <div class="cta-final-btns">
+    <a class="cta-phone" href="tel:0607442885">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372a2.25 2.25 0 00-1.687-2.176l-2.927-.731a2.25 2.25 0 00-2.282.74l-.597.746a14.25 14.25 0 01-6.063-6.063l.746-.597a2.25 2.25 0 00.74-2.282l-.731-2.927A2.25 2.25 0 006.122 4.5H4.75A2.25 2.25 0 002.25 6.75z"/></svg>
+      06 07 44 28 85
+    </a>
+    <a class="cta-wa" href="https://wa.me/33607442885?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20intervention%20plomberie." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <strong>Sivec Plomberie</strong> &middot; Artisan Plombier Chauffagiste &middot; Nantes (44)<br>
+  Lun-Ven : 7h-19h &middot; Sam : 8h-17h &middot; <a href="tel:0607442885">06 07 44 28 85</a>
+</footer>
+
+<!-- ══════ WHATSAPP FLOTTANT ══════ -->
+<a class="wa-float" href="https://wa.me/33607442885?text=Bonjour%2C%20je%20souhaite%20un%20devis%20plomberie." target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+</body>
+</html>
