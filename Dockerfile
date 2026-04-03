@@ -21,7 +21,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bet-bot ./cmd/bot
     CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o candle-rush-bot ./cmd/candle-rush-bot && \
     CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bot-manager ./cmd/manager && \
     CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o sweep ./cmd/sweep && \
-    CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o sweep-all ./cmd/sweep-all
+    CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o sweep-all ./cmd/sweep-all && \
+    CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o tracker ./cmd/tracker
 
 # Runtime stage
 FROM alpine:latest
@@ -37,6 +38,7 @@ COPY --from=builder /app/candle-rush-bot .
 COPY --from=builder /app/bot-manager .
 COPY --from=builder /app/sweep .
 COPY --from=builder /app/sweep-all .
+COPY --from=builder /app/tracker .
 COPY --from=builder /app/config.yaml .
 
 # Create data directory for wallet storage
