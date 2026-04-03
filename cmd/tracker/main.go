@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/big"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/ethereum/go-ethereum"
@@ -43,17 +44,19 @@ var (
 )
 
 const (
-	chunkSize       = uint64(100)  // Monad public RPC limit
-	lookbackBlocks  = uint64(500000) // ~2-3 days on Monad
-	requestTimeout  = 120 * time.Second
+	chunkSize       = uint64(2000)  // Try larger chunks first, fall back if needed
+	lookbackBlocks  = uint64(5000)  // ~few hours on Monad — enough for recent bets
+	requestTimeout  = 60 * time.Second
 )
 
-// paginatedFilterLogs queries eth_getLogs in chunks of chunkSize blocks
+// paginatedFilterLogs queries eth_getLogs with adaptive chunk sizing.
+// Starts with chunkSize, halves on error down to 100 blocks minimum.
 func paginatedFilterLogs(ctx context.Context, client *ethclient.Client, from, to uint64, addresses []common.Address, topics [][]common.Hash) ([]ethtypes.Log, error) {
 	var allLogs []ethtypes.Log
+	currentChunk := chunkSize
 
-	for start := from; start <= to; start += chunkSize {
-		end := start + chunkSize - 1
+	for start := from; start <= to; {
+		end := start + currentChunk - 1
 		if end > to {
 			end = to
 		}
@@ -65,21 +68,20 @@ func paginatedFilterLogs(ctx context.Context, client *ethclient.Client, from, to
 			Topics:    topics,
 		})
 		if err != nil {
-			// Log warning but continue scanning
-			fmt.Printf("    (warn: error at blocks %d-%d: %v)\n", start, end, err)
+			if currentChunk > 100 {
+				// Halve the chunk size and retry same start
+				currentChunk /= 2
+				fmt.Printf("    (chunk too large, reducing to %d blocks)\n", currentChunk)
+				continue
+			}
+			// Already at minimum, skip this range
+			fmt.Printf("    (skip blocks %d-%d: %v)\n", start, end, err)
+			start = end + 1
 			continue
 		}
 		allLogs = append(allLogs, logs...)
-
-		// Progress indicator every 1000 chunks
-		scanned := end - from + 1
-		total := to - from + 1
-		if scanned%(chunkSize*1000) == 0 || end == to {
-			pct := float64(scanned) / float64(total) * 100
-			fmt.Printf("    Scanned %d/%d blocks (%.0f%%)\r", scanned, total, pct)
-		}
+		start = end + 1
 	}
-	fmt.Println() // newline after progress
 
 	return allLogs, nil
 }
@@ -88,6 +90,14 @@ func main() {
 	wallet := "0xE538e578f4D1195EF3F7E434f4bff3c62F8FfB24"
 	if len(os.Args) > 1 {
 		wallet = os.Args[1]
+	}
+
+	// Optional: LOOKBACK env var to override block range (e.g. LOOKBACK=50000)
+	scanBlocks := lookbackBlocks
+	if lb := os.Getenv("LOOKBACK"); lb != "" {
+		if v, err := strconv.ParseUint(lb, 10, 64); err == nil {
+			scanBlocks = v
+		}
 	}
 
 	walletAddr := common.HexToAddress(wallet)
@@ -139,8 +149,8 @@ func main() {
 
 	// Determine scan range
 	fromBlock := uint64(0)
-	if blockNum > lookbackBlocks {
-		fromBlock = blockNum - lookbackBlocks
+	if blockNum > scanBlocks {
+		fromBlock = blockNum - scanBlocks
 	}
 
 	totalBlocks := blockNum - fromBlock
