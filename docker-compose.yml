@@ -1,0 +1,84 @@
+services:
+  bet-bot:
+    build: .
+    container_name: bet-bot
+    env_file:
+      - .env
+    volumes:
+      - ./data:/root/data
+      - ./config.yaml:/root/config.yaml
+      - ./.env:/root/.env
+    environment:
+      - SINGLE_WALLET_MODE=${SINGLE_WALLET_MODE:-false}
+      - COOLDOWN_SECONDS=${COOLDOWN_SECONDS:-30}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL:-}
+      - LOW_BALANCE_THRESHOLD_USDC=${LOW_BALANCE_THRESHOLD_USDC:-10}
+      - LOW_BALANCE_THRESHOLD_MON=${LOW_BALANCE_THRESHOLD_MON:-1}
+    secrets:
+      - keystore_passphrase
+      - owner_private_key
+      - mnemonic
+    restart: unless-stopped
+    command: ["./bet-bot", "--hedged"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  candle-rush-bot:
+    build: .
+    container_name: candle-rush-bot
+    env_file:
+      - .env
+    volumes:
+      - ./data:/root/data
+      - ./config.yaml:/root/config.yaml
+      - ./.env:/root/.env
+    environment:
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL:-}
+      - LOW_BALANCE_THRESHOLD_USDC=${LOW_BALANCE_THRESHOLD_USDC:-50}
+    secrets:
+      - owner_private_key
+    restart: unless-stopped
+    command: ["./candle-rush-bot"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  bot-manager:
+    build: .
+    container_name: bot-manager
+    env_file:
+      - .env
+    volumes:
+      - ./data:/root/data
+      - ./config.yaml:/root/config.yaml
+      - ./.env:/root/.env
+    environment:
+      - SINGLE_WALLET_MODE=${SINGLE_WALLET_MODE:-false}
+      - COOLDOWN_SECONDS=${COOLDOWN_SECONDS:-30}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL:-}
+      - LOW_BALANCE_THRESHOLD_USDC=${LOW_BALANCE_THRESHOLD_USDC:-10}
+      - LOW_BALANCE_THRESHOLD_MON=${LOW_BALANCE_THRESHOLD_MON:-1}
+    secrets:
+      - keystore_passphrase
+      - owner_private_key
+      - mnemonic
+    restart: unless-stopped
+    command: ["./bot-manager"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+secrets:
+  keystore_passphrase:
+    environment: "KEYSTORE_PASSPHRASE"
+  owner_private_key:
+    environment: "OWNER_PRIVATE_KEY"
+  mnemonic:
+    environment: "MNEMONIC"

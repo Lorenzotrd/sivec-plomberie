@@ -1,0 +1,46 @@
+# Binaries
+bet-bot
+bot-manager
+candle-rush-bot
+sweep
+sweep-all
+sweep-bot
+bot
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# OS files
+.DS_Store
+
+# Test binary
+*.test
+
+# Output of go coverage
+*.out
+
+# Dependency directories
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.old
+
+# Data files with sensitive info
+data/wallets.json
+/backup/*
+
+# Build
+/build/
+/dist/
+
+

@@ -1,0 +1,134 @@
+# Betting Bot Configuration
+
+# Bot Manager - which bots to run when using ./bot-manager
+manager:
+  enabled_bots:
+    - 'bet-bot'
+    - 'candle-rush-bot'
+  sweep_interval_hours: 8  # Sweep sub-wallet funds back to owner every N hours (0 to disable)
+
+# Owner Wallet (holds the funds) - set via OWNER_PRIVATE_KEY env var
+owner_private_key: '${OWNER_PRIVATE_KEY}'
+
+# Network (Monad)
+rpc_url: 'https://rpc.monad.xyz'
+chain_id: 143
+
+# Contracts
+diamond_address: '0x928dc8afe312df45576b15b08c086c5427fd8207'
+usdc_address: '0x754704Bc059F8C67012fEd69BC8A327a5aafb603'
+
+# Market API - set HASURA_URL env var
+hasura_url: '${HASURA_URL}'
+hermes_url: '${HERMES_URL}'
+
+# Wallet Management
+wallets:
+  db_url: '${DATABASE_URL}'
+  new_wallet_probability: 0.7 # Probability [0.0-1.0] of creating a new wallet instead of reusing an existing one
+  min_fund_amount_usdc: 0.1 # Min USDC to fund wallet (should cover multiple bets)
+  max_fund_amount_usdc: 1.0 # Max USDC to fund wallet
+  min_gas_fund_mon: 0.5 # Min MON to fund for gas (~50+ txns)
+  max_gas_fund_mon: 1.0 # Max MON to fund for gas (~100+ txns)
+  min_gas_balance_mon: 0.1 # Refund gas if below this
+  min_wallets_before_reuse: 5
+  single_wallet_mode: false # If true, use owner wallet directly (no wallet creation/funding) - can be overridden by SINGLE_WALLET_MODE env var
+  generate_new_wallets: false # If false, only use existing wallets from store (no on-the-fly creation) - can be overridden by GENERATE_NEW_WALLETS env var
+  mnemonic: '${MNEMONIC}' # Mnemonic for deterministic wallet generation - set MNEMONIC env var
+  initial_wallet_count: 0 # Number of wallets to ensure exist from mnemonic - set INITIAL_WALLET_COUNT env var
+  referral_code: '${REFERRAL_CODE}' # Referral code to redeem - set REFERRAL_CODE env var
+
+# Concurrency
+threads: 1 # Number of concurrent betting threads - set THREADS env var
+api_base_url: '${API_BASE_URL}' # API Base URL (optional - required only for referral features)
+
+# Betting Constraints (for price arena bot)
+betting:
+  min_amount_usdc: 0.1
+  max_amount_usdc: 1
+  cooldown_seconds: 30
+  tolerance_bps: 100 # 1% price tolerance (aa-betme uses 50 bps / 0.5%)
+  max_price_age_seconds: 30 # Accept prices up to 30 seconds old (reduce retries)
+  price_retries: 1 # Minimal retries to avoid delays
+  broker_id: 1
+  enabled_assets:
+    - 'BTC'
+    - 'ETH'
+    - 'SOL'
+  enabled_timeframes:
+    - '5m'
+    - '15m'
+    - '30m'
+
+# Candle Rush Bot Configuration
+# Used by: ./candle-rush-bot
+# Strategy: Place GREEN + RED bets on ALL assets × ALL intervals × N candles per round
+candle_rush:
+  # Assets to bet on - each gets GREEN + RED bets per candle
+  # Options: BTC, ETH, SOL (or direct contract addresses)
+  assets:
+    - 'BTC'
+    - 'ETH'
+    - 'SOL'
+
+  # Bet amount range (USDC per side per asset per candle)
+  # Total per round = amount × 2 sides × num_assets × candles × num_intervals
+  # Example: 0.1 USDC × 2 × 3 assets × 5 candles × 3 intervals = 9 USDC per round
+  min_amount_usdc: 0.1
+  max_amount_usdc: 1.0
+
+  # Candle intervals to use (all are bet on every round)
+  # 300 = 5m, 900 = 15m, 1800 = 30m
+  intervals:
+    - 300
+    - 900
+    - 1800
+
+  # Number of consecutive candles to bet on per interval per asset
+  # Each candle gets GREEN + RED bets for every asset
+  # Example: 5 candles on 5m = bets for the next 5 consecutive 5-minute candles
+  candles_per_interval: 5
+
+  # Coverage-based halt time
+  # Each interval halts independently: candlesPerInterval × intervalSeconds × (visible - target) / target
+  # Example: 5 candles × 300s × (14-8)/8 = 1125s ≈ 19 min for 5m interval
+  visible_candles: 14     # Number of candles visible in UI
+  target_covered: 8       # Target candles with volume
+
+  # Cooldown between interval batch transactions within a round (seconds)
+  # Actual cooldown is random between min and max
+  cooldown_min: 10
+  cooldown_max: 30
+
+  # Broker ID for tracking
+  broker_id: 1
+
+# Funding Requirements
+# ===================
+# Main Bot (hedged mode):
+#   - Per round: 2 bets from 2 wallets
+#   - Min per round: min_amount_usdc x 2 = 0.1 x 2 = 0.2 USDC
+#   - Recommended: 20+ USDC in owner wallet
+#
+# Candle Rush Bot (default: 3 assets × 3 intervals × 5 candles):
+#   - Per round: 3 assets × 3 intervals × 5 candles × 2 sides = 90 bets
+#   - Min per round: 0.1 × 2 × 3 × 5 × 3 = 9 USDC
+#   - Recommended: 500+ USDC for extended operation
+
+# Asset Configuration
+assets:
+  BTC:
+    address: '0x0555E30da8f98308EdB960aa94C0Db47230d2B9c'
+    price_id: '0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43'
+  ETH:
+    address: '0xEE8c0E9f1BFFb4Eb878d8f15f368A02a35481242'
+    price_id: '0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace'
+  SOL:
+    address: '0xea17E5a9efEBf1477dB45082d67010E2245217f1'
+    price_id: '0xef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d'
+
+# Price Fetching
+use_streaming: false # Enable streaming for faster price updates
+
+# Logging
+log_level: 'info'
